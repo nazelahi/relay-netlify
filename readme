@@ -1,0 +1,7 @@
+I'll take a quick look at the project so I can tailor the Netlify guidance to what you actually have here.
+
+For this project the Netlify piece is the OAuth relay in relay-netlify/. Here's the working configuration.
+
+1. Give it its own repo
+relay-netlify/ is currently untracked inside the Mac app repo. Don't push the whole thing — the relay repo should contain only the relay, so nothing from the app source or build/ leaks.
+
