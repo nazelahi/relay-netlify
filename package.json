@@ -1,0 +1,11 @@
+{
+  "name": "nexora-meta-relay-netlify",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0"
+  }
+}

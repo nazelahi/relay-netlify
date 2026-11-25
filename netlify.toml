@@ -1,0 +1,26 @@
+# Netlify: clean HTTPS paths mapped to the serverless functions.
+# Meta registers https://<site>.netlify.app/nexora/callback
+
+[build]
+  publish = "."
+
+# Keep-alive / connectivity check for uptime pingers.
+[[redirects]]
+  from = "/nexora/diag"
+  to = "/.netlify/functions/diag"
+  status = 200
+
+[[redirects]]
+  from = "/healthz"
+  to = "/.netlify/functions/health"
+  status = 200
+
+[[redirects]]
+  from = "/nexora/callback"
+  to = "/.netlify/functions/callback"
+  status = 200
+
+[[redirects]]
+  from = "/nexora/result"
+  to = "/.netlify/functions/result"
+  status = 200
