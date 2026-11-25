@@ -8,7 +8,7 @@
 import { createStoreOrReport } from "./_store.mjs";
 
 export async function handler() {
-  const r = createStoreOrReport();
+  const r = await createStoreOrReport();
   return {
     statusCode: 200,
     body: JSON.stringify({

@@ -45,7 +45,7 @@ export async function handler(event) {
   if (!state) return { statusCode: 400, body: "Missing state" };
 
   // Strongly consistent store: the /nexora/result read must see this write.
-  const r = createStoreOrReport();
+  const r = await createStoreOrReport();
   if (!r.store) return storageProblem(r);
   const store = r.store;
 

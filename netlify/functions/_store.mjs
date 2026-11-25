@@ -14,9 +14,21 @@
  * Errors are reported as structured data so the remote diag endpoint can
  * show exactly what is missing, without leaking any secret values.
  */
-import { getStore } from "@netlify/blobs";
+export async function createStoreOrReport() {
+  // Load lazily so a missing/broken dependency is reported as JSON by diag
+  // instead of turning every function (including diag) into an opaque 500.
+  let getStore;
+  try {
+    ({ getStore } = await import("@netlify/blobs"));
+  } catch (moduleError) {
+    return {
+      problem: "blobs_module_unavailable",
+      detail: moduleError.message,
+      hasSiteIDVar: Boolean(process.env.NETLIFY_SITE_ID),
+      hasTokenVar: Boolean(process.env.NETLIFY_API_TOKEN)
+    };
+  }
 
-export function createStoreOrReport() {
   try {
     return { store: getStore({ name: "nexora-oauth", consistency: "strong" }) };
   } catch (autoError) {

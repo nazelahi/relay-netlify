@@ -9,7 +9,10 @@ instead of process memory.
 
 1. Push this folder to a GitHub repo (its own repo; never commit secrets).
 2. In Netlify: **Add new site → Import an existing project** → pick the repo.
-   Netlify auto-detects `netlify.toml`. No build command needed.
+   Netlify auto-detects `netlify.toml`. If the repo is the parent app repo rather
+   than this folder, set **Base directory** to `relay-netlify`. The committed
+   `package-lock.json` plus the `npm install` build command in `netlify.toml`
+   make sure `@netlify/blobs` is present in the function bundle.
 3. **Site configuration → Environment variables**, add:
 
 | Key | Value |
@@ -53,6 +56,15 @@ Pages & Accounts → Meta App Configuration:
 ## Verify
 
 Open `https://<your-site>.netlify.app/healthz` in a browser → should show `ok`.
+
+If `/nexora/diag` returns HTML, a 404, or a 500 instead of JSON, first try
+`/.netlify/functions/health` and `/.netlify/functions/diag` directly:
+
+- `health` 404 → functions were not deployed; check the repo/base directory and
+  the "Packaging Functions" line in the deploy log.
+- `health` works but `/healthz` 404 → `netlify.toml` isn't at the site root.
+- `diag` reports `blobs_module_unavailable` → dependency wasn't installed; use
+  a Git-linked deploy (manual drag-and-drop never runs `npm install`).
 
 Then run a live login from Nexora.
 

@@ -22,7 +22,7 @@ export async function handler(event) {
   const state = String(q.state || "");
   if (!state) return { statusCode: 400, body: JSON.stringify({ error: "missing_state" }) };
 
-  const r = createStoreOrReport();
+  const r = await createStoreOrReport();
   if (!r.store) return storageProblem(r);
   const store = r.store;
   const key = `oauth:${state}`;
